@@ -11,3 +11,4 @@ puts "deduct balance by one when fare complete:;
 what is the current balance: #{current_balance = card.balance};
 does journey status change to false when touch out: #{card.touch_out};
 does the balance change by min balance: #{card.balance == current_balance - Oystercard::MINIMUM_BALANCE}"
+puts "does the card record where i have travelled from: #{card.entry_station}"
