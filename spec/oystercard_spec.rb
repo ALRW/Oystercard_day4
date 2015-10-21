@@ -6,6 +6,10 @@ describe Oystercard do
     expect(subject.balance).to eq 0
   end
 
+  it 'empty history on new card' do
+    expect(subject.history).to be_empty
+  end
+
   describe '#top_up' do
     it 'balance increases by top up amount' do
       expect {subject.top_up 1}.to change{subject.balance }.by 1
@@ -22,7 +26,7 @@ describe Oystercard do
     end
 
     it 'check balance changes at touch out by minimum balance' do
-      expect { subject.touch_out }. to change{ subject.balance }.by -(Oystercard::MINIMUM_BALANCE)
+      expect { subject.touch_out(station) }. to change{ subject.balance }.by -(Oystercard::MINIMUM_BALANCE)
     end
 
   context 'Balance Query before touch in and out' do
@@ -47,14 +51,23 @@ describe Oystercard do
         end
 
         describe '#touch_out' do
+          let(:station1) {double(:station1)}
+
           it 'checks person can touch out and change card journey type' do
-            subject.touch_out
+            subject.touch_out(station)
             expect(subject.in_journey?).to eq false
           end
           it 'sets the entry_station to nil' do
             subject.touch_in(station)
-            subject.touch_out
+            subject.touch_out(station)
             expect(subject.entry_station).to eq(nil)
+          end
+          it {is_expected.to respond_to(:touch_out).with(1).argument}
+
+          it 'saves entry & exit station' do
+            subject.touch_in(station)
+            subject.touch_out(station1)
+            expect(subject.history[0]).to eq({station => station1})
           end
         end
 
