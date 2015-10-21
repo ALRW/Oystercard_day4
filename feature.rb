@@ -14,3 +14,5 @@ does journey status change to false when touch out: #{card.touch_out("Paddington
 does the balance change by min balance: #{card.balance == current_balance - Oystercard::MINIMUM_BALANCE}"
 puts "does the card record where i have travelled from: #{card.entry_station}"
 puts "what journeys have I completed? #{card.history}"
+holborn = Station.new("Holborn", 1)
+puts "I want to know what zone Holborn station is in: #{holborn.zone}"

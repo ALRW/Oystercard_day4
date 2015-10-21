@@ -1,13 +1,14 @@
+require './lib/station'
 class Oystercard
 
   MAXIMUM_BALANCE = 90
   MINIMUM_BALANCE = 1
 
-  attr_reader :entry_station, :balance, :history
+  attr_reader :entry_station, :balance, :journeys
 
   def initialize (balance = 0)
     @balance = balance
-    @history = []
+    @journeys = []
 
   end
 
@@ -38,7 +39,7 @@ private
   end
 
   def store_journey station
-      @history << {@entry_station => station}
+      @journeys << {@entry_station => station}
   end
 
 end

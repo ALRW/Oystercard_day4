@@ -1,13 +1,13 @@
 require 'oystercard'
 
 describe Oystercard do
-  let(:station) {double(:station)}
+  let(:station) {double(:station, :name => "Angel", :zone => 2)}
   it 'balance is zero when initialized' do
     expect(subject.balance).to eq 0
   end
 
   it 'empty history on new card' do
-    expect(subject.history).to be_empty
+    expect(subject.journeys).to be_empty
   end
 
   describe '#top_up' do
@@ -34,6 +34,7 @@ describe Oystercard do
       subject.top_up(Oystercard::MAXIMUM_BALANCE)
     end
 
+
     describe '#in_journey?' do
       it "shows whether an Oystercard is journeying!" do
         subject.touch_in(station)
@@ -51,7 +52,7 @@ describe Oystercard do
         end
 
         describe '#touch_out' do
-          let(:station1) {double(:station1)}
+          let(:station1) {double(:station1, :name => "Moorgate", :zone => 3)}
 
           it 'checks person can touch out and change card journey type' do
             subject.touch_out(station)
@@ -67,7 +68,12 @@ describe Oystercard do
           it 'saves entry & exit station' do
             subject.touch_in(station)
             subject.touch_out(station1)
-            expect(subject.history[0]).to eq({station => station1})
+            expect(subject.journeys[0]).to eq({station => station1})
+          end
+          it 'Checks card can return the zone of a station' do
+            subject.touch_in(station)
+            subject.touch_out(station1)
+            expect(subject.journeys[0].keys[0].zone).to eq(2)
           end
         end
 
