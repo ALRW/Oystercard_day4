@@ -16,7 +16,7 @@ describe Journey do
     it ' shows whether a journey is in progress' do
       expect(subject.in_progress).to be(true)
     end
-    
+
   end
 
   describe '#end_journey' do
@@ -39,7 +39,27 @@ describe Journey do
     it 'Checks zone of a station once journey complete' do
       expect(subject.whole_journey.keys[0].zone).to eq station.zone
     end
-
   end
+
+  describe '#fare' do
+    it 'calculates fare' do
+      subject.start_journey(station)
+      subject.end_journey(station1)
+      expect(subject.fare).to eq(Journey::MINIMUM_FARE)
+    end
+    context 'edge case' do
+      it 'charges penalty when touch_in twice' do
+        subject.start_journey(station)
+        subject.start_journey(station1)
+        expect(subject.fare).to eq(Journey::PENALTY)
+      end
+      it 'charges penalty when touch out first' do
+        subject.end_journey(station)
+        expect(subject.fare).to eq(Journey::PENALTY)
+      end
+    end
+  end
+
+
 
 end
