@@ -3,7 +3,7 @@ require 'oystercard'
 describe Oystercard do
   let(:station) {double(:station, :name => "Angel", :zone => 2)}
   let(:station1) {double(:station1, :name => "Moorgate", :zone => 3)}
-  let(:journey){double(:journey, :fare => 1, :end_journey => station1, :start_journey => station, :whole_journey => {station => station1})}
+  let(:journey){double(:journey, :fare => 1, :touch_out => station1, :touch_in => station, :whole_journey => {station => station1})}
 
   describe 'initialize' do
 

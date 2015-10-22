@@ -10,12 +10,12 @@ class Journey
     @whole_journey = {}
   end
 
-  def start_journey(station)
+  def touch_in(station)
     @start_point = station
     @in_progress = true
   end
 
-  def end_journey(station)
+  def touch_out(station)
     @end_point = station
     @in_progress = false
     @whole_journey[@start_point] = @end_point

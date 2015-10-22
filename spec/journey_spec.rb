@@ -4,9 +4,9 @@ describe Journey do
  let(:station){double(:station, :zone => 6, :name => :Cockfosters)}
  let(:station1){double(:station1, :zone => 3, :name => :Angel)}
 
-  describe '#start_journey?' do
+  describe '#touch_in?' do
     before do
-        subject.start_journey(station)
+        subject.touch_in(station)
     end
 
     it "shows whether a start_point is stored!" do
@@ -19,10 +19,10 @@ describe Journey do
 
   end
 
-  describe '#end_journey' do
+  describe '#touch_out' do
     before do
-      subject.start_journey(station)
-      subject.end_journey(station1)
+      subject.touch_in(station)
+      subject.touch_out(station1)
     end
 
     it 'stores and end point' do
@@ -43,18 +43,18 @@ describe Journey do
 
   describe '#fare' do
     it 'calculates fare' do
-      subject.start_journey(station)
-      subject.end_journey(station1)
+      subject.touch_in(station)
+      subject.touch_out(station1)
       expect(subject.fare).to eq(Journey::MINIMUM_FARE)
     end
     context 'edge case' do
       it 'charges penalty when touch_in twice' do
-        subject.start_journey(station)
-        subject.start_journey(station1)
+        subject.touch_in(station)
+        subject.touch_in(station1)
         expect(subject.fare).to eq(Journey::PENALTY)
       end
       it 'charges penalty when touch out first' do
-        subject.end_journey(station)
+        subject.touch_out(station)
         expect(subject.fare).to eq(Journey::PENALTY)
       end
     end
