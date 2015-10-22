@@ -1,4 +1,5 @@
 require './lib/station'
+require './lib/journey'
 class Oystercard
 
   MAXIMUM_BALANCE = 90
@@ -18,12 +19,13 @@ class Oystercard
   end
 
   def in_journey?
-    !!entry_station
+    Journey.in_progress
   end
 
   def touch_in(station)
     fail "you have insufficient funds of #{@balance}" if @balance < MINIMUM_BALANCE
-    @entry_station = station
+    @new_journey = Journey.new
+    @new_journey.start_journey(station)
   end
 
   def touch_out(station)
