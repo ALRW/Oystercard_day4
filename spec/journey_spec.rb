@@ -17,6 +17,11 @@ describe Journey do
       expect(subject.in_progress).to be(true)
     end
 
+    it 'tests if there is already a journey in progress' do
+      subject.touch_in(station1)
+      expect(subject.incomplete_journey).to eq({station => "Incomplete"})
+    end
+
   end
 
   describe '#touch_out' do
@@ -39,18 +44,12 @@ describe Journey do
     it 'Checks zone of a station once journey complete' do
       expect(subject.whole_journey.keys[0].zone).to eq station.zone
     end
-  end
 
-  describe "#incomplete_journey" do
-    it "returns true if touch_in twice" do
-      subject.touch_in(station)
-      subject.touch_in(station1)
-      expect(subject.incomplete_journey?).to eq(true)
+    it 'tests if no journey is in progress' do
+      subject.touch_out(station)
+      expect(subject.incomplete_journey).to eq({"Incomplete" => station})
     end
-
-
   end
-
 
   describe '#fare' do
     it 'calculates fare' do
