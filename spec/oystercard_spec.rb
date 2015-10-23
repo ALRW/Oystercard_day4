@@ -3,18 +3,11 @@ require 'oystercard'
 describe Oystercard do
   let(:station) {double(:station, :name => "Angel", :zone => 2)}
   let(:station1) {double(:station1, :name => "Moorgate", :zone => 3)}
-  let(:journey){double(:journey, :fare => 1, :touch_out => station1, :touch_in => station, :whole_journey => {station => station1})}
-
+  subject(:oystercard){ described_class.new(0, Journey) }
   describe 'initialize' do
-
     it 'balance is zero' do
       expect(subject.balance).to eq 0
     end
-
-    it 'empty history on new card' do
-      expect(subject.journeys).to be_empty
-    end
-
   end
 
   describe '#top_up' do
@@ -28,11 +21,13 @@ describe Oystercard do
   end
 
   describe '#touch_in' do
+
     it 'checks minimum balance when touch in'do
       # subject.balance = Oystercard::MINIMUM_BALANCE - 1
       expect {subject.touch_in(station)}.to raise_error "you have insufficient funds of #{subject.balance}"
     end
     it 'deducts a penalty fare if you touch in twice' do
+
       subject.top_up(Oystercard::MAXIMUM_BALANCE)
       subject.touch_in(station)
       expect{subject.touch_in(station1)}.to change{subject.balance}.by(-6)
@@ -41,7 +36,7 @@ describe Oystercard do
 
 
 
-  xdescribe '#touch_out' do
+  describe '#touch_out' do
     before 'checks balance before use' do
       subject.top_up(Oystercard::MAXIMUM_BALANCE)
       subject.touch_in(station)
