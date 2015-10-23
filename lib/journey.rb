@@ -21,6 +21,11 @@ class Journey
     @whole_journey[@start_point] = @end_point
   end
 
+  def incomplete_journey?
+
+    true
+  end
+
   def fare
     case
     when @in_progress then PENALTY

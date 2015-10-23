@@ -41,6 +41,17 @@ describe Journey do
     end
   end
 
+  describe "#incomplete_journey" do
+    it "returns true if touch_in twice" do
+      subject.touch_in(station)
+      subject.touch_in(station1)
+      expect(subject.incomplete_journey?).to eq(true)
+    end
+
+
+  end
+
+
   describe '#fare' do
     it 'calculates fare' do
       subject.touch_in(station)
