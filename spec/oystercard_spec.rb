@@ -41,7 +41,7 @@ describe Oystercard do
 
 
 
-  describe '#touch_out' do
+  xdescribe '#touch_out' do
     before 'checks balance before use' do
       subject.top_up(Oystercard::MAXIMUM_BALANCE)
       subject.touch_in(station)
